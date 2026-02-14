@@ -1,30 +1,53 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<title>Telegram Netlify Test</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Smart Dustbin Test</title>
+<link rel="manifest" href="manifest.json">
+<style>
+body {
+  margin:0; font-family:sans-serif;
+  display:flex; flex-direction:column; align-items:center; justify-content:center;
+  min-height:100vh; background:#111; color:#fff;
+}
+h1{margin-bottom:20px;}
+button{padding:10px 20px; margin:10px; font-size:1em; cursor:pointer; border:none; border-radius:10px; background:#00ffae; color:#000;}
+#status{margin-top:20px; font-size:1.2em;}
+</style>
 </head>
 <body>
 
-<h2>Telegram Notification Test</h2>
+<h1>SMART DUSTBIN TEST</h1>
 
-<button onclick="send()">Send Notification</button>
+<div>
+  <button id="simulateFull">Simulate Bin Full</button>
+  <button id="simulateNotFull">Simulate Bin Not Full</button>
+</div>
 
-<p id="result"></p>
+<div id="status">Status: --</div>
 
 <script>
+const statusEl = document.getElementById("status");
 
-async function send(){
-
-  document.getElementById("result").innerText = "Sending...";
-
-  const res = await fetch("/.netlify/functions/send-telegram");
-
-  const data = await res.json();
-
-  document.getElementById("result").innerText =
-    JSON.stringify(data, null, 2);
+// Function to call Netlify Function
+function sendTelegramNotification(message) {
+  fetch("/.netlify/functions/send-telegram")
+    .then(res => res.json())
+    .then(data => console.log("Telegram sent:", data))
+    .catch(err => console.log(err));
 }
 
+// Simulate Bin Full
+document.getElementById("simulateFull").addEventListener("click", () => {
+  statusEl.textContent = "Status: FULL 🚨";
+  sendTelegramNotification();
+});
+
+// Simulate Bin Not Full
+document.getElementById("simulateNotFull").addEventListener("click", () => {
+  statusEl.textContent = "Status: Not Full ✅";
+});
 </script>
 
 </body>
