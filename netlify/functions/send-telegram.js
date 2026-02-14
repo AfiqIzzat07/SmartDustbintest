@@ -1,4 +1,4 @@
-const fetch = require("node-fetch"); // Only needed if Node < 18
+
 
 exports.handler = async function () {
   const BOT_TOKEN = "8456561690:AAGdyXXTWpM_9LKriH6sjsaAz5CSYpiuXF4"; // Replace with your Telegram bot token
